@@ -1,0 +1,30 @@
+#UDP
+#socket() 소켓생성
+#bind():ip주소,포트 할당
+#TCP와 다르게 메시지와 정보(ip,포트)를 주고 받음
+#recvfrom(): 데이터 받음
+#sendto():주소포함 데이터 전송
+#~.decode('utf-8')
+
+#소켓생성시 tcp는  socket.SOCK_STREAM
+#udp는 socket.SOCK_DGRAM
+
+import socket
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.bind(('localhost', 3000))
+print("server start(클라이언트 기다리는 중)")
+
+
+while True:
+  data,addr = s.recvfrom(1024)
+  print('클라이언트에게 받은 메시지:',data.decode())
+  print('클라이언트 주소:',addr)
+  if not data : break
+ 
+  send_msg = input(">> ")
+  if not send_msg : break
+  s.sendto(send_msg.encode(),addr)
+  
+
+s.close()
