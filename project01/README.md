@@ -9,5 +9,7 @@
 
 - `udp_server.py` : UDP 채팅 서버 코드
 - `udp_client.py` : UDP 채팅 클라이언트 코드
-- 
-- 
+- ![image](https://github.com/user-attachments/assets/c78e8223-6afe-4067-81cd-c6e88e43009d)
+
+-  ![image](https://github.com/user-attachments/assets/f1352664-4d66-4cb2-81ff-3afd6ca67389)
+
