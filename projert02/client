@@ -1,0 +1,13 @@
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+while True:
+  send_msg = input(">> ")
+  if not send_msg : break
+  s.sendto(send_msg.encode(),('localhost', 3000))
+
+  data, _ = s.recvfrom(1024)
+  if not data : break
+  print("서버에게 받은 메시지:",data.decode())
+
+s.close()
