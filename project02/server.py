@@ -12,7 +12,7 @@
 import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.bind(('localhost', 3000))
+s.bind(('192.168.5.128', 3000))
 print("server start(클라이언트 기다리는 중)")
 
 data, client_addr = s.recvfrom(1024)
@@ -20,19 +20,18 @@ filename = data.decode()
 print("요청받은 파일명:" + filename)
 
 try:
-  with open(filename, 'rb') as f:
-    while True:
-      chunk = f.read(1024)  # 1024바이트씩 쪼개서 읽음
-      if not chunk: break
-      s.sendto(chunk, client_addr)
-
-  s.sendto(b'', client_addr)
-  print("파일 전송 완료")
+    with open(filename, 'rb') as f:
+        while True:
+            chunk = f.read(1024)
+            if not chunk:
+                break
+            s.sendto(chunk, client_addr)
+    # 명확한 종료 패킷 전송
+    s.sendto(b'__END__', client_addr)
+    print("파일 전송 완료")
 
 except FileNotFoundError:
     s.sendto(b'404', client_addr)
     print("❌ 요청한 파일이 존재하지 않습니다.")
-
-    
 
 s.close()
