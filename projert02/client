@@ -1,13 +1,16 @@
 import socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+c = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_addr = ('localhost', 3000)
+filename = 'test.jpeg'
+#파일명을 보냄
+c.sendto(filename.encode(), server_addr)
 
-while True:
-  send_msg = input(">> ")
-  if not send_msg : break
-  s.sendto(send_msg.encode(),('localhost', 3000))
+with open("받은_파일명" + filename, 'wb') as f:
+    while True:
+        data, addr = c.recvfrom(1024)
+        if not data:
+            break
+        f.write(data)
 
-  data, _ = s.recvfrom(1024)
-  if not data : break
-  print("서버에게 받은 메시지:",data.decode())
-
-s.close()
+print("파일 받기 완료")
+c.close()
